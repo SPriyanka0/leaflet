@@ -14,10 +14,37 @@ alert('hi');
        }).addTo(map);
        //marker
        var marker = L.marker([35.2271, -80.8431]).addTo(map) //[35.2271, -80.8431]
-       .bindPopup('I am over here!!').openPopup();
+       .bindPopup('Starting point!!').openPopup();
        //let me get back to this in a minute
        console.log(marker.toGeoJSON());
        //get uesr location via making a fucntion
        //function locateUser() {
-         //  this.map.locate({setView : true});}
+         // this.map.locate({setView : true});}
+        //in alternate to the function I was able to find a line of code easier to implement to find user location
+        //https://www.youtube.com/watch?v=FaABCCKf97c  
         var user = L.control.locate().addTo(map);
+        //layer group categories???
+        var restaurants = L.layerGroup().addTo(map);
+        var hotel = L.layerGroup().addTo(map);
+        var gas = L.layerGroup().addTo(map);
+        var grocery = L.layerGroup().addTo(map);
+        var icecream = L.layerGroup().addTo(map);
+        //event listeners for options from html 
+        document.getElementById("places").addEventListener('click', async(event)=>{
+            event.preventDefault(); //no other actions if things fail when first writng the code
+            let locations = document.getElementById('places');
+            console.log(location);
+        })
+        //businesses and such
+        const options = {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              Authorization: 'fsq3IAVEFGdQUJTjjpbxYLMmeb/aeKj1qdXesqSzPumOwK4='
+            }
+          };
+          
+          fetch('https://api.foursquare.com/v3/places/search', options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
