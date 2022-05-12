@@ -2,12 +2,12 @@
 const leafMap = {
   //initialize outside of functions
   cord: [],
-  business:[],
+  locations:[],
   lemap:{}, 
   pmarker: {},
   //gather the map in a function
   createMap(){
-    this.map = L.map('map',{
+    const lemap = L.map('map',{
       center: this.cords, 
       zoom:13,
     })
@@ -20,9 +20,49 @@ const leafMap = {
         accessToken: 'pk.eyJ1IjoicHJpeWFua2EtLXNoYWgiLCJhIjoiY2wydHBzdGcxMDZudjNqcDJrcW92M3k5MSJ9.xlHGgmlWn5hrKjQOvSygAw'
     }).addTo(lemap);
     var marker = L.marker(this.cords)
-    marker.addTo(map).bindPopop('You are here').openPopup()
+    marker.addTo(lemap).bindPopop('You are here').openPopup()
   },
   //businesses 
+ createMarkers(){
+   for(var i =0; i < this.locations.length; i++){
+     this.markers = L.marker([
+       this.locations[i].lat,
+       this.locations[i].long
+     ])
+     .bindPopop('marker').addTo(lemap)
+   }
+ },
 }//ending of const leafMap
+//foursquare api
+//async
+async function fourSquare(business){
+  const options = {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: 'fsq3IAVEFGdQUJTjjpbxYLMmeb/aeKj1qdXesqSzPumOwK4='
+    }
+  };
+  //rewrite fetch so that certain things like types of businesses can be replacable
+  let fq = await fetch('https://api.foursquare.com/v3/places/search?query=${business}&ll=35.2271%2C%20-80.8431&limit=5', options)
+  let data = await response.text()
+  let parseData = JSON.parse(data)
+
+  let locations = parseData.results
+    let lat = lemap.cords
+    let lng = lemap.cords
+    return locations
+    
 
     
+}//end of fourSquare
+
+
+ //go button
+ document.getElementById('places').addEventListener('click', async(event)=>{
+   event.preventDefault9
+   let businesses = document.getElementById('places').value
+ })
+    
+
+  
