@@ -15,7 +15,7 @@
     crossorigin=""></script>
     <!--css style-->
     <!--locate control-->
-
+<!--remove after adding geoLocation-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
@@ -27,18 +27,18 @@
  
 </head>
 <body>
-    <div id="map">
-
-    </div>
+    
     <script src="main.js"></script>
     <!--dropdown menu-->
-        <select id='Bus inesses'>
-            <option>Restaurnats</option>
-            <option>Hotel</option>
-            <option>Gas</option>
-            <option>Grocery</option>
-            <option>Icecream</option>
-
+        <select id='places'>
+            <option value="restaurant">Restaurnats</option>
+            <option value="hotel">Hotel</option>
+            <option value="coffee">Coffee</option>
+            <option value="market">Markets</option>
         </select>
+        <button id="go">GO</button>
+        <div id="map">
+
+        </div>
 </body>
 </html>
