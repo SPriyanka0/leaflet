@@ -27,12 +27,22 @@ const leafMap = {
    for(var i =0; i < this.locations.length; i++){
      this.markers = L.marker([
        this.locations[i].lat,
-       this.locations[i].long
+       this.locations[i].lng,
      ])
      .bindPopop('marker').addTo(lemap)
    }
  },
+ 
 }//ending of const leafMap
+//cords from geo location = make a function :)
+function coords(){
+  const locate = new Promise(
+    (resolve, reject)=>{
+      navigator.geolocation.getCurrentPosition(resolve,reject)
+    }
+  )
+  return[locate.cords.lat, locate.cords.lng]
+}
 //foursquare api
 //async
 async function fourSquare(business){
@@ -56,12 +66,27 @@ async function fourSquare(business){
 
     
 }//end of fourSquare
+//the arrays from fetch neeed a place to reference
+function reference(data){
+  let locations = data.map((element)=>{
+    let location = {
+      name : element.name,
+    }
+  }
 
+  )
+}
+//call
+window.onload = async()=>{
+  const cords = await coords()
+  lemap.createMap()
+  lemap.locations = cords
+}
 
  //go button
- document.getElementById('places').addEventListener('click', async(event)=>{
-   event.preventDefault9
-   let businesses = document.getElementById('places').value
+ document.getElementById('go').addEventListener('click', async(event)=>{
+   event.preventDefault()
+   let locations = document.getElementById('places').value
  })
     
 
