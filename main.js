@@ -1,10 +1,10 @@
 //everything with map goes in here under one variable
 const leafMap = {
   //initialize outside of functions
-  cord: [],
+  cords: [],
   locations:[],
   lemap:{}, 
-  pmarker: {},
+  allmarker: {},
   //gather the map in a function
   createMap(){
     const lemap = L.map('map',{
@@ -20,32 +20,32 @@ const leafMap = {
         accessToken: 'pk.eyJ1IjoicHJpeWFua2EtLXNoYWgiLCJhIjoiY2wydHBzdGcxMDZudjNqcDJrcW92M3k5MSJ9.xlHGgmlWn5hrKjQOvSygAw'
     }).addTo(lemap);
     var marker = L.marker(this.cords)
-    marker.addTo(lemap).bindPopop('You are here').openPopup()
+    marker.addTo(this.lemap).bindPopop('You are here').openPopup()
   },
   //businesses 
  createMarkers(){
    for(var i =0; i < this.locations.length; i++){
-     this.markers = L.marker([
+     this.allmarker = L.marker([
        this.locations[i].lat,
        this.locations[i].lng,
      ])
-     .bindPopop('marker').addTo(lemap)
+     .bindPopop('you are here').addTo(this.lemap)
    }
  },
  
 }//ending of const leafMap
 //cords from geo location = make a function :)
-function coords(){
-  const locate = new Promise(
+async function coords(){
+  const locate = await new Promise(
     (resolve, reject)=>{
       navigator.geolocation.getCurrentPosition(resolve,reject)
     }
   )
-  return[locate.cords.lat, locate.cords.lng]
+  return[locate.cord.lat, locate.cord.lng]
 }
 //foursquare api
 //async
-async function fourSquare(business){
+async function fourSquare(places){
   const options = {
     method: 'GET',
     headers: {
@@ -54,7 +54,7 @@ async function fourSquare(business){
     }
   };
   //rewrite fetch so that certain things like types of businesses can be replacable
-  let fq = await fetch('https://api.foursquare.com/v3/places/search?query=${business}&ll=35.2271%2C%20-80.8431&limit=5', options)
+  let fq = await fetch('https://api.foursquare.com/v3/places/search?query=${places}&ll=35.2271%2C%20-80.8431&limit=5', options)
   let data = await response.text()
   let parseData = JSON.parse(data)
 
@@ -77,17 +77,22 @@ function reference(data){
   )
 }
 //call
-window.onload = async()=>{
-  const cords = await coords()
-  lemap.createMap()
-  lemap.locations = cords
+window.onload= ()=>{
+  coords()
+  leafMap.createMap()
+ //go button
+  document.getElementById('go').addEventListener('click', async(event)=>{
+    event.preventDefault()
+    let locations = document.getElementById('places').value
+  })
 }
 
- //go button
- document.getElementById('go').addEventListener('click', async(event)=>{
-   event.preventDefault()
-   let locations = document.getElementById('places').value
- })
+  
+
+
+
+ 
+
     
 
   
