@@ -31,18 +31,23 @@ const leafMap = {
      ])
      .bindPopop('you are here').addTo(this.lemap)
    }
+
  },
- 
-}//ending of const leafMap
-//cords from geo location = make a function :)
-async function coords(){
+ //cords from geo location = make a function :)
+async  coords(){
   const locate = await new Promise(
     (resolve, reject)=>{
       navigator.geolocation.getCurrentPosition(resolve,reject)
+
     }
+  
   )
-  return[locate.cord.lat, locate.cord.lng]
+  this.cords = [locate.coords.latitude,  locate.coords.longitude]
+  console.log( locate)
+  
 }
+}//ending of const leafMap
+
 //foursquare api
 //async
 async function fourSquare(places){
@@ -77,8 +82,10 @@ function reference(data){
   )
 }
 //call
-window.onload= ()=>{
-  coords()
+window.onload= async ()=>{
+   await leafMap.coords()
+
+ console.log(leafMap.cords)
   leafMap.createMap()
  //go button
   document.getElementById('go').addEventListener('click', async(event)=>{
